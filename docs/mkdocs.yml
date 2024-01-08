@@ -65,8 +65,7 @@ theme:
 
 # Customization
 copyright: <a href="https://ultralytics.com" target="_blank">© 2023 Ultralytics Inc.</a> All rights reserved.
-extra:
-  # version:
+extra: # version:
   #   provider: mike  #  version drop-down menu
   robots: robots.txt
   analytics:
@@ -170,6 +169,7 @@ nav:
           - Segment: tasks/segment.md
           - Classify: tasks/classify.md
           - Pose: tasks/pose.md
+          - OBB: tasks/obb.md
       - Guides:
           - guides/index.md
       - Models:
@@ -203,6 +203,7 @@ nav:
       - Segment: tasks/segment.md
       - Classify: tasks/classify.md
       - Pose: tasks/pose.md
+      - OBB: tasks/obb.md
   - Models:
       - models/index.md
       - YOLOv3: models/yolov3.md
@@ -218,6 +219,11 @@ nav:
       - RT-DETR (Realtime Detection Transformer): models/rtdetr.md
   - Datasets:
       - datasets/index.md
+      - Explorer:
+          - datasets/explorer/index.md
+          - Explorer API: datasets/explorer/api.md
+          - GUI Dashboard Demo: datasets/explorer/dash.md
+          - VOC Exploration Example: datasets/explorer/explorer.ipynb
       - Detection:
           - datasets/detect/index.md
           - Argoverse: datasets/detect/argoverse.md
@@ -279,6 +285,8 @@ nav:
           - Heatmaps: guides/heatmaps.md
           - Instance Segmentation with Object Tracking: guides/instance-segmentation-and-tracking.md
           - VisionEye Mapping: guides/vision-eye.md
+          - Speed Estimation: guides/speed-estimation.md
+          - Distance Calculation: guides/distance-calculation.md
   - Integrations:
       - integrations/index.md
       - Comet ML: integrations/comet.md
@@ -335,6 +343,7 @@ nav:
           - 'iOS': hub/app/ios.md
           - 'Android': hub/app/android.md
       - Inference API: hub/inference_api.md
+
   - Reference:
       - cfg:
           - __init__: reference/cfg/__init__.md
@@ -346,6 +355,7 @@ nav:
           - converter: reference/data/converter.md
           - dataset: reference/data/dataset.md
           - loaders: reference/data/loaders.md
+          - split_dota: reference/data/split_dota.md
           - utils: reference/data/utils.md
       - engine:
           - exporter: reference/engine/exporter.md
@@ -400,6 +410,10 @@ nav:
                   - train: reference/models/yolo/detect/train.md
                   - val: reference/models/yolo/detect/val.md
               - model: reference/models/yolo/model.md
+              - obb:
+                  - predict: reference/models/yolo/obb/predict.md
+                  - train: reference/models/yolo/obb/train.md
+                  - val: reference/models/yolo/obb/val.md
               - pose:
                   - predict: reference/models/yolo/pose/predict.md
                   - train: reference/models/yolo/pose/train.md
@@ -421,6 +435,8 @@ nav:
           - ai_gym: reference/solutions/ai_gym.md
           - heatmap: reference/solutions/heatmap.md
           - object_counter: reference/solutions/object_counter.md
+          - speed_estimation: reference/solutions/speed_estimation.md
+          - distance_calculation: reference/solutions/distance_calculation.md
       - trackers:
           - basetrack: reference/trackers/basetrack.md
           - bot_sort: reference/trackers/bot_sort.md
@@ -491,6 +507,7 @@ plugins:
       add_image: True
       add_share_buttons: True
       default_image: https://github.com/ultralytics/ultralytics/assets/26833433/6d09221c-c52a-4234-9a5d-b862e93c6529
+  - mkdocs-jupyter
   - redirects:
       redirect_maps:
         callbacks.md: usage/callbacks.md

@@ -33,6 +33,8 @@ class ObjectCounter:
         self.im0 = None
         self.tf = None
         self.view_img = False
+        self.view_in_counts = True
+        self.view_out_counts = True
 
         self.names = None  # Classes names
         self.annotator = None  # Annotator
@@ -61,6 +63,8 @@ class ObjectCounter:
                  line_thickness=2,
                  track_thickness=2,
                  view_img=False,
+                 view_in_counts=True,
+                 view_out_counts=True,
                  draw_tracks=False,
                  count_txt_thickness=2,
                  count_txt_color=(0, 0, 0),
@@ -74,6 +78,8 @@ class ObjectCounter:
         Args:
             line_thickness (int): Line thickness for bounding boxes.
             view_img (bool): Flag to control whether to display the video stream.
+            view_in_counts (bool): Flag to control whether to display the incounts on video stream.
+            view_out_counts (bool): Flag to control whether to display the outcounts on video stream.
             reg_pts (list): Initial list of points defining the counting region.
             classes_names (dict): Classes names
             track_thickness (int): Track thickness
@@ -88,6 +94,8 @@ class ObjectCounter:
         """
         self.tf = line_thickness
         self.view_img = view_img
+        self.view_in_counts = view_in_counts
+        self.view_out_counts = view_out_counts
         self.track_thickness = track_thickness
         self.draw_tracks = draw_tracks
 
@@ -192,13 +200,27 @@ class ObjectCounter:
 
         incount_label = 'In Count : ' + f'{self.in_counts}'
         outcount_label = 'OutCount : ' + f'{self.out_counts}'
-        self.annotator.count_labels(in_count=incount_label,
-                                    out_count=outcount_label,
-                                    count_txt_size=self.count_txt_thickness,
-                                    txt_color=self.count_txt_color,
-                                    color=self.count_color)
 
-        if self.env_check and self.view_img:
+        # Display counts based on user choice
+        counts_label = None
+        if not self.view_in_counts and not self.view_out_counts:
+            counts_label = None
+        elif not self.view_in_counts:
+            counts_label = outcount_label
+        elif not self.view_out_counts:
+            counts_label = incount_label
+        else:
+            counts_label = incount_label + ' ' + outcount_label
+
+        if counts_label is not None:
+            self.annotator.count_labels(counts=counts_label,
+                                        count_txt_size=self.count_txt_thickness,
+                                        txt_color=self.count_txt_color,
+                                        color=self.count_color)
+
+    def display_frames(self):
+        """Display frame."""
+        if self.env_check:
             cv2.namedWindow('Ultralytics YOLOv8 Object Counter')
             if len(self.reg_pts) == 4:  # only add mouse event If user drawn region
                 cv2.setMouseCallback('Ultralytics YOLOv8 Object Counter', self.mouse_event_for_region,
@@ -219,8 +241,15 @@ class ObjectCounter:
         self.im0 = im0  # store image
 
         if tracks[0].boxes.id is None:
-            return
+            if self.view_img:
+                self.display_frames()
+                return
+            else:
+                return
         self.extract_and_process_tracks(tracks)
+
+        if self.view_img:
+            self.display_frames()
         return self.im0
 
 
